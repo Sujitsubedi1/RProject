@@ -1,2 +1,2 @@
-cat ("HEllo People")
+print ("HEllo People")
 
