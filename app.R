@@ -1,6 +1,6 @@
 #
 # This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
+# the 'Run App' button above.sni
 #
 # Find out more about building applications with Shiny here:
 #
@@ -10,14 +10,14 @@
 
 pacman::p_load('ggplot2','shiny','tidyverse','readr', 'highcharter')
 
-setwd("~/401WebApp/401Webapp")
+setwd("~/401WebApp/401Webapp/RProject")
 
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Random Data"),
+    titlePanel("Marks by Student"),
 
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
@@ -25,9 +25,9 @@ ui <- fluidPage(
             fileInput("myData", label = h3("File input")),
             downloadButton("download_myData", "Download from web Browser"),
             actionButton("action", label = "save Data"),
-            selectInput("cyl", "Select Cylinder Count:",
-                        choices = c(4,6,8),
-                        selected = 4),
+            selectInput("Subject", "Select the subject:",
+                        choices = c("CMPS401","Math201"),
+                        selected = "CMPS401"),
             h4('User may load data, download data, save data and switch subgroups of data')
                     ),
 
@@ -69,8 +69,8 @@ server <- function(input, output) {
         if(is.null(input$myData)){
             return ()
         }else if (!is.null(input$myData)){
-            myData() %>% filter(cyl == input$cyl)%>%
-            ggplot(aes(hp))+ geom_histogram(bins = 5)
+            myData() %>% filter(Subject == input$Subject)%>%
+            ggplot(aes(marks))+ geom_histogram(bins = 10)+ labs(y = "Number Of Student")
         }
     })
     output$download_myData <- downloadHandler(
