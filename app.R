@@ -22,6 +22,7 @@ ui <- fluidPage(
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
+            tags$style('.well {background-color: #2A9FBC}'),
             fileInput("myData", label = h3("File input")),
             downloadButton("download_myData", "Download from web Browser"),
             actionButton("action", label = "save Data"),
@@ -35,8 +36,12 @@ ui <- fluidPage(
         mainPanel(
             tabsetPanel(
                 type = "tabs",
-                tabPanel('Plot',
+                tabPanel('Plot histogram',
                          plotOutput('histogram')),
+                tabPanel('Plot barchart',
+                         plotOutput('barplot')),
+                tabPanel('Mathematical Calculation',
+                         tableOutput('math')),
                 tabPanel('Data',
                          tableOutput('horsepower')),
                 tabPanel('Global Data',
@@ -61,7 +66,12 @@ server <- function(input, output) {
         if (is.null(input$myData)){
             return()
         } else if(!is.null(input$myData)){
-            return(myData())
+            
+            if(input$Subject == 'All'){
+                myData()
+            } else if ((input$Subject != '')){
+                myData() %>% filter(Subject == input$Subject)
+            }
         }
     })
     
@@ -73,6 +83,23 @@ server <- function(input, output) {
             ggplot(aes(marks))+ geom_histogram(bins = 10)+ labs(y = "Number Of Student")
         }
     })
+    output$barplot <-renderPlot({
+        if(is.null(input$myData)){
+            return ()
+        }else if (!is.null(input$myData)){
+            myData() %>% filter(Subject == input$Subject)%>%
+                ggplot(aes(Grade))+ geom_bar(bins = 10)+ labs(y = "Number Of Student")
+        }
+    })
+    
+    output$math <-renderTable({
+        if(is.null(input$myData)){
+            return ()
+        }else if (!is.null(input$myData)){
+            x<- mean(input$subject)
+        }
+    })
+
     output$download_myData <- downloadHandler(
         filename = function(){
             print(input$myData$name)
