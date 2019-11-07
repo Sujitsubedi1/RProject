@@ -8,7 +8,7 @@
 #
 
 
-pacman::p_load('ggplot2','shiny','tidyverse','readr', 'highcharter')
+pacman::p_load('ggplot2','shiny','tidyverse','readr', 'highcharter','Hmisc')
 
 setwd("~/401WebApp/401Webapp/RProject")
 
@@ -92,13 +92,15 @@ server <- function(input, output) {
         }
     })
     
-    output$math <-renderTable({
+    output$math <-renderPrint({
         if(is.null(input$myData)){
             return ()
         }else if (!is.null(input$myData)){
-            x<- mean(input$subject)
+          mydata <- myData()
+          summary(mydata$marks) 
         }
     })
+   
 
     output$download_myData <- downloadHandler(
         filename = function(){
