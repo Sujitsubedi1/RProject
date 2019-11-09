@@ -10,7 +10,7 @@
 
 pacman::p_load('ggplot2','shiny','tidyverse','readr', 'highcharter','Hmisc')
 
-setwd("~/401WebApp/401Webapp/RProject")
+
 
 
 # Define UI for application that draws a histogram
@@ -29,7 +29,9 @@ ui <- fluidPage(
             selectInput("Subject", "Select the subject:",
                         choices = c("CMPS401","Math201"),
                         selected = "CMPS401"),
-            h4('User may load data, download data, save data and switch subgroups of data')
+            h4('User may load data, download data, save data and switch subgroups of data'),
+            radioButtons("color", "Select the colour", choices=c("Red", "Purple","Orange"),selected=("Red")
+            ),
                     ),
 
         # Show a plot of the generated distribution
@@ -80,7 +82,7 @@ server <- function(input, output) {
             return ()
         }else if (!is.null(input$myData)){
             myData() %>% filter(Subject == input$Subject)%>%
-            ggplot(aes(marks))+ geom_histogram(bins = 10)+ labs(y = "Number Of Student")
+            ggplot(aes(marks))+ geom_histogram(bins = 10,fill=input$color)+ labs(y = "Number Of Student")
         }
     })
     output$barplot <-renderPlot({
@@ -88,7 +90,7 @@ server <- function(input, output) {
             return ()
         }else if (!is.null(input$myData)){
             myData() %>% filter(Subject == input$Subject)%>%
-                ggplot(aes(Grade))+ geom_bar(bins = 10)+ labs(y = "Number Of Student")
+                ggplot(aes(Grade))+ geom_bar(bins = 10,fill=input$color)+ labs(y = "Number Of Student")
         }
     })
     
