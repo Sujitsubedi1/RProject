@@ -7,10 +7,24 @@ pacman::p_load('ggplot2','shinythemes','shiny','tidyverse','readr', 'highcharter
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-    shinythemes::themeSelector(),
+    tags$head(
+        tags$style(HTML("
+      @import url('//fonts.googleapis.com/css?family=Lobster|Cabin:400,700');
+      
+      h1 {
+        font-family: 'Lobster', cursive;
+        font-weight: 500;
+        line-height: 1.1;
+        color: #ad1d28;
+      }
+
+    "))
+    ),
+    
+    headerPanel("Marks By Student"),
        
     # Application title
-    titlePanel("Marks by Student"),
+    #titlePanel("Marks by Student"),
 
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
@@ -26,7 +40,7 @@ ui <- fluidPage(
             h4('User may load data, download data, save data and switch subgroups of data'),
             radioButtons("color", "Select the colour", choices=c("Red", "Purple","Orange"),selected=("Red")
             ),
-           
+            shinythemes::themeSelector(),
             
                     ),
 
