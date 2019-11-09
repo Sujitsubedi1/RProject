@@ -1,27 +1,21 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.sni
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 
-pacman::p_load('ggplot2','shiny','tidyverse','readr', 'highcharter','Hmisc')
+pacman::p_load('ggplot2','shinythemes','shiny','tidyverse','readr', 'highcharter','Hmisc')
 
 
 
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
+    shinythemes::themeSelector(),
+       
     # Application title
     titlePanel("Marks by Student"),
 
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
+            
             tags$style('.well {background-color: #2A9FBC}'),
             fileInput("myData", label = h3("File input")),
             downloadButton("download_myData", "Download from web Browser"),
@@ -32,11 +26,14 @@ ui <- fluidPage(
             h4('User may load data, download data, save data and switch subgroups of data'),
             radioButtons("color", "Select the colour", choices=c("Red", "Purple","Orange"),selected=("Red")
             ),
+           
+            
                     ),
 
         # Show a plot of the generated distribution
         mainPanel(
             tabsetPanel(
+               
                 type = "tabs",
                 tabPanel('Plot histogram',
                          plotOutput('histogram')),
