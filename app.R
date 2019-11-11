@@ -7,6 +7,12 @@ pacman::p_load('ggplot2','shinythemes','shiny','tidyverse','readr', 'highcharter
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
+  conditionalPanel(
+    condition = "input.password != 'password'",  
+    passwordInput("password", "Type the password here", value="")
+  ),
+  conditionalPanel(
+    condition = "input.password == 'password'", 
     tags$head(
         tags$style(HTML("
       @import url('//fonts.googleapis.com/css?family=Lobster|Cabin:400,700');
@@ -68,6 +74,7 @@ ui <- fluidPage(
             ) 
         )
     )
+)
 )
 #access the global.R file
 source("Global.R")
