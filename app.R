@@ -54,7 +54,12 @@ ui <- fluidPage(
                 tabPanel('Plot barchart',
                          plotOutput('barplot')),
                 tabPanel('Mathematical Calculation',
-                         tableOutput('math')),
+                         br(),
+                         textOutput('mean'),
+                         br(),
+                         textOutput('median'),
+                         br(),
+                         textOutput('sd')),
                 tabPanel('Data',
                          tableOutput('horsepower')),
                 tabPanel('Global Data',
@@ -105,12 +110,32 @@ server <- function(input, output) {
         }
     })
     
-    output$math <-renderPrint({
+    output$mean <-renderPrint({
         if(is.null(input$myData)){
             return ()
         }else if (!is.null(input$myData)){
-          mydata <- myData()
-          summary(mydata$marks) 
+            mydata <- myData()
+            x<- mean(mydata$marks) 
+            paste("The mean =" , x)
+        }
+    })
+    
+    output$median <-renderPrint({
+        if(is.null(input$myData)){
+            return ()
+        }else if (!is.null(input$myData)){
+            mydata <- myData()
+            Y<- median(mydata$marks)
+            paste("The median =", Y)
+        }
+    })
+    output$sd <-renderPrint({
+        if(is.null(input$myData)){
+            return ()
+        }else if (!is.null(input$myData)){
+            mydata <- myData()
+            z<- sd(mydata$marks) 
+            paste("The Standard deviation =" , z)
         }
     })
    
